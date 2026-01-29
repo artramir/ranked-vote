@@ -1,15 +1,15 @@
 # FastAPI and server
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-python-multipart==0.0.6
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+python-multipart>=0.0.6
 
 # Database
-sqlalchemy==2.0.25
-alembic==1.13.1
+sqlalchemy>=2.0.25
+alembic>=1.13.1
 
 # CORS support
-python-dotenv==1.0.0
+python-dotenv>=1.0.0
 
-# Data validation
-pydantic==2.5.3
-pydantic-settings==2.1.0
+# Data validation (use newer versions with Python 3.14 support)
+pydantic>=2.10.0
+pydantic-settings>=2.6.0

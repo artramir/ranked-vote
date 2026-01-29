@@ -2,6 +2,36 @@
 
 A ranked-choice voting (RCV) polling system for the Costa Rican presidential election with 20 parties.
 
+## Prerequisites
+
+Before setting up this project, you need to install:
+
+### Required Software
+
+1. **Python 3.11+** (Backend)
+   - Download: https://www.python.org/downloads/
+   - ⚠️ During installation, check ✅ "Add Python to PATH"
+   - Alternative: Install Miniconda/Anaconda
+
+2. **Node.js LTS** (Frontend)
+   - Download: https://nodejs.org/ (choose LTS version)
+   - Install with default settings
+   - ⚠️ When prompted about "Tools for Node.js Native Modules", you can skip it (not needed for this project)
+
+3. **Git** (Version Control)
+   - Download: https://git-scm.com/downloads
+   - Recommended: Also install GitHub Desktop for easier workflow
+
+### Verify Installation
+
+Open a terminal and check versions:
+```bash
+python --version    # Should show Python 3.11+
+node --version      # Should show Node.js v20+ or v22+
+npm --version       # Should show npm 9+ or 10+
+git --version       # Should show git version
+```
+
 ## Project Overview
 
 This web application allows users to:
@@ -55,9 +85,57 @@ ranked-vote/
 └── README.md
 ```
 
+## Quick Start
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/artramir/ranked-vote.git
+cd ranked-vote
+```
+
+### 2. Backend Setup
+```bash
+# Navigate to backend directory
+cd backend
+
+# Create and activate a virtual environment (choose one):
+
+# Option A: Using venv (standard Python)
+python -m venv venv
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # macOS/Linux
+
+# Option B: Using conda
+conda create -n rankedvote_env python=3.11
+conda activate rankedvote_env
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the backend server
+python main.py
+```
+
+Backend will run at http://localhost:8000  
+API docs available at http://localhost:8000/docs
+
+### 3. Frontend Setup
+```bash
+# Navigate to frontend directory (in a new terminal)
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+Frontend will run at http://localhost:5173
+
 ## Development Status
 
-🚧 **In Development** - Setting up initial project structure
+🚧 **In Development** - Backend API functional, frontend and IRV algorithm in progress
 
 ## Domain
 
