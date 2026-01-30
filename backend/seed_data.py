@@ -14,7 +14,7 @@ PARTIES_DATA = [
         "candidate_name": "Claudia Vanessa Dobles Camargo",
         "color": "#FFD700",  # Gold
         "photo_url": "/images/candidates/ac.jpg",
-        "flag_url": "/images/flags/ac.png",
+        "flag_url": "/images/flags/ac.jpg",
         "description": "Coalición PAC y ADN - Arquitecta, ex primera dama"
     },
     {
@@ -23,7 +23,7 @@ PARTIES_DATA = [
         "candidate_name": "Douglas Caamaño Quirós",
         "color": "#0066CC",  # Blue
         "photo_url": "/images/candidates/cr1.jpg",
-        "flag_url": "/images/flags/cr1.png",
+        "flag_url": "/images/flags/cr1.jpg",
         "description": "Empresario"
     },
     {
@@ -32,7 +32,7 @@ PARTIES_DATA = [
         "candidate_name": "Ronny Castillo González",
         "color": "#00AA00",  # Green
         "photo_url": "/images/candidates/acrm.jpg",
-        "flag_url": "/images/flags/acrm.png",
+        "flag_url": "/images/flags/acrm.jpg",
         "description": "Administrador de Empresas"
     },
     {
@@ -41,7 +41,7 @@ PARTIES_DATA = [
         "candidate_name": "José Miguel Aguilar Berrocal",
         "color": "#FF6600",  # Orange
         "photo_url": "/images/candidates/pa.jpg",
-        "flag_url": "/images/flags/pa.png",
+        "flag_url": "/images/flags/pa.jpg",
         "description": "Psicólogo"
     },
     {
@@ -50,7 +50,7 @@ PARTIES_DATA = [
         "candidate_name": "Ana Virginia Calzada Miranda",
         "color": "#4B0082",  # Indigo
         "photo_url": "/images/candidates/cds.jpg",
-        "flag_url": "/images/flags/cds.png",
+        "flag_url": "/images/flags/cds.jpg",
         "description": "Abogada, ex presidenta Sala Constitucional"
     },
     {
@@ -59,7 +59,7 @@ PARTIES_DATA = [
         "candidate_name": "David Hernández Brenes",
         "color": "#DC143C",  # Crimson
         "photo_url": "/images/candidates/pt.jpg",
-        "flag_url": "/images/flags/pt.png",
+        "flag_url": "/images/flags/pt.jpg",
         "description": "Docente y sindicalista"
     },
     {
@@ -68,7 +68,7 @@ PARTIES_DATA = [
         "candidate_name": "Claudio Alberto Alpízar Otoya",
         "color": "#32CD32",  # Lime Green
         "photo_url": "/images/candidates/penac.jpg",
-        "flag_url": "/images/flags/penac.png",
+        "flag_url": "/images/flags/penac.jpg",
         "description": "Politólogo"
     },
     {
@@ -77,7 +77,7 @@ PARTIES_DATA = [
         "candidate_name": "Marco David Rodríguez Badilla",
         "color": "#20B2AA",  # Light Sea Green
         "photo_url": "/images/candidates/pel.jpg",
-        "flag_url": "/images/flags/pel.png",
+        "flag_url": "/images/flags/pel.jpg",
         "description": "Administrador Público"
     },
     {
@@ -86,7 +86,7 @@ PARTIES_DATA = [
         "candidate_name": "Andrés Ariel Robles Barrantes",
         "color": "#FFEF00",  # Yellow
         "photo_url": "/images/candidates/fa.jpg",
-        "flag_url": "/images/flags/fa.png",
+        "flag_url": "/images/flags/fa.jpg",
         "description": "Docente, diputado - Izquierda democrática"
     },
     {
@@ -95,7 +95,7 @@ PARTIES_DATA = [
         "candidate_name": "Luis Esteban Amador Jiménez",
         "color": "#FF4500",  # Orange Red
         "photo_url": "/images/candidates/pin.jpg",
-        "flag_url": "/images/flags/pin.png",
+        "flag_url": "/images/flags/pin.jpg",
         "description": "Ingeniero Civil, ex ministro MOPT"
     },
     {
@@ -104,7 +104,7 @@ PARTIES_DATA = [
         "candidate_name": "Walter Rubén Hernández Juárez",
         "color": "#8B4513",  # Brown
         "photo_url": "/images/candidates/pjsc.jpg",
-        "flag_url": "/images/flags/pjsc.png",
+        "flag_url": "/images/flags/pjsc.jpg",
         "description": "Abogado, ex viceministro"
     },
     {
@@ -113,7 +113,7 @@ PARTIES_DATA = [
         "candidate_name": "Álvaro Roberto Ramos Chaves",
         "color": "#008024",  # Green
         "photo_url": "/images/candidates/pln.jpg",
-        "flag_url": "/images/flags/pln.png",
+        "flag_url": "/images/flags/pln.jpg",
         "description": "Economista, ex presidente CCSS - Socialdemócrata"
     },
     {
@@ -122,7 +122,7 @@ PARTIES_DATA = [
         "candidate_name": "Eliécer Feinzaig Mintz",
         "color": "#00CED1",  # Dark Turquoise
         "photo_url": "/images/candidates/plp.jpg",
-        "flag_url": "/images/flags/plp.png",
+        "flag_url": "/images/flags/plp.jpg",
         "description": "Economista, diputado - Liberal"
     },
     {
@@ -131,7 +131,7 @@ PARTIES_DATA = [
         "candidate_name": "Fernando Dionisio Zamora Castellanos",
         "color": "#00BFFF",  # Deep Sky Blue
         "photo_url": "/images/candidates/png.jpg",
-        "flag_url": "/images/flags/png.png",
+        "flag_url": "/images/flags/png.jpg",
         "description": "Abogado, ex secretario general PLN"
     },
     {
@@ -140,7 +140,7 @@ PARTIES_DATA = [
         "candidate_name": "Gerardo Fabricio Alvarado Muñoz",
         "color": "#1E90FF",  # Dodger Blue
         "photo_url": "/images/candidates/pnr.jpg",
-        "flag_url": "/images/flags/pnr.png",
+        "flag_url": "/images/flags/pnr.jpg",
         "description": "Periodista, diputado - Conservador cristiano"
     },
     {
@@ -149,7 +149,7 @@ PARTIES_DATA = [
         "candidate_name": "Laura Fernández Delgado",
         "color": "#029ba3",  # Teal
         "photo_url": "/images/candidates/ppso.jpg",
-        "flag_url": "/images/flags/ppso.png",
+        "flag_url": "/images/flags/ppso.jpg",
         "description": "Politóloga, ex ministra - Oficialismo"
     },
     {
@@ -158,7 +158,7 @@ PARTIES_DATA = [
         "candidate_name": "Luz Mary Alpízar Loaiza",
         "color": "#9370DB",  # Medium Purple
         "photo_url": "/images/candidates/ppsd.jpg",
-        "flag_url": "/images/flags/ppsd.png",
+        "flag_url": "/images/flags/ppsd.jpg",
         "description": "Ingeniera Química, diputada"
     },
     {
@@ -167,7 +167,7 @@ PARTIES_DATA = [
         "candidate_name": "Juan Carlos Hidalgo Bogantes",
         "color": "#0033A0",  # Blue
         "photo_url": "/images/candidates/pusc.jpg",
-        "flag_url": "/images/flags/pusc.png",
+        "flag_url": "/images/flags/pusc.jpg",
         "description": "Internacionalista - Democracia cristiana"
     },
     {
@@ -176,7 +176,7 @@ PARTIES_DATA = [
         "candidate_name": "Natalia Díaz Quintana",
         "color": "#FF1493",  # Deep Pink
         "photo_url": "/images/candidates/up.jpg",
-        "flag_url": "/images/flags/up.png",
+        "flag_url": "/images/flags/up.jpg",
         "description": "Administradora, ex ministra de la Presidencia"
     },
     {
@@ -185,7 +185,7 @@ PARTIES_DATA = [
         "candidate_name": "Boris Molina Acevedo",
         "color": "#B8860B",  # Dark Goldenrod
         "photo_url": "/images/candidates/pucd.jpg",
-        "flag_url": "/images/flags/pucd.png",
+        "flag_url": "/images/flags/pucd.jpg",
         "description": "Abogado"
     },
 ]

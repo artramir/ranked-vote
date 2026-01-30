@@ -11,6 +11,7 @@ from contextlib import asynccontextmanager
 from database import init_db, get_db
 from seed_data import seed_database, get_parties_data
 from models import Party, Ballot
+from irv_algorithm import compute_irv_results, get_ballot_journey
 
 
 @asynccontextmanager
@@ -128,16 +129,80 @@ async def submit_ballot(ballot: dict, db: Session = Depends(get_db)):
 @app.get("/api/results")
 async def get_results(db: Session = Depends(get_db)):
     """Get current election results with IRV computation"""
-    total_ballots = db.query(Ballot).count()
+    # Fetch all ballots
+    ballots = db.query(Ballot).all()
     
-    # TODO: Implement IRV algorithm and return computed results
-    # For now, return basic stats
+    if len(ballots) == 0:
+        return {
+            "total_ballots": 0,
+            "winner": None,
+            "rounds": [],
+            "message": "No ballots submitted yet"
+        }
+    
+    # Fetch all parties
+    parties_list = db.query(Party).all()
+    parties_dict = {
+        party.id: {
+            "name": party.name,
+            "abbreviation": party.abbreviation,
+            "candidate_name": party.candidate_name,
+            "color": party.color,
+            "photo_url": party.photo_url,
+            "flag_url": party.flag_url
+        }
+        for party in parties_list
+    }
+    
+    # Convert ballots to format expected by IRV algorithm
+    ballot_dicts = [{"rankings": ballot.rankings} for ballot in ballots]
+    
+    # Compute IRV results
+    irv_result = compute_irv_results(ballot_dicts, parties_dict)
+    
+    return irv_result.to_dict()
+
+
+@app.get("/api/ballot/{ballot_id}/journey")
+async def get_ballot_journey_endpoint(ballot_id: int, db: Session = Depends(get_db)):
+    """
+    Get the journey of a specific ballot through elimination rounds
+    Shows how the vote transferred as candidates were eliminated
+    """
+    # Fetch the specific ballot
+    ballot = db.query(Ballot).filter(Ballot.id == ballot_id).first()
+    
+    if not ballot:
+        return {"error": "Ballot not found"}
+    
+    # Fetch all ballots for IRV computation
+    all_ballots = db.query(Ballot).all()
+    
+    # Fetch all parties
+    parties_list = db.query(Party).all()
+    parties_dict = {
+        party.id: {
+            "name": party.name,
+            "abbreviation": party.abbreviation,
+            "candidate_name": party.candidate_name,
+            "color": party.color,
+            "photo_url": party.photo_url,
+            "flag_url": party.flag_url
+        }
+        for party in parties_list
+    }
+    
+    # Compute IRV results
+    ballot_dicts = [{"rankings": b.rankings} for b in all_ballots]
+    irv_result = compute_irv_results(ballot_dicts, parties_dict)
+    
+    # Get journey for this specific ballot
+    journey = get_ballot_journey(ballot.rankings, parties_dict, irv_result)
     
     return {
-        "total_ballots": total_ballots,
-        "rounds": [],
-        "winner": None,
-        "message": "IRV computation not yet implemented"
+        "ballot_id": ballot_id,
+        "journey": journey,
+        "election_winner": irv_result.winner
     }
 
 
