@@ -12,7 +12,8 @@ const Results = ({ onBackToVote }) => {
 
   const fetchResults = async () => {
     try {
-      const response = await fetch('/api/results');
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/results`);
       const data = await response.json();
       setResults(data);
       setLoading(false);

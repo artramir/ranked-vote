@@ -89,7 +89,8 @@ const VotingInterface = ({ onViewResults }) => {
 
   const fetchCandidates = async () => {
     try {
-      const response = await fetch('/api/candidates');
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/candidates`);
       const data = await response.json();
       setCandidates(data.candidates);
       setAvailableCandidates(data.candidates);
@@ -225,7 +226,8 @@ const VotingInterface = ({ onViewResults }) => {
     setSubmitting(true);
 
     try {
-      const response = await fetch('/api/ballot', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/ballot`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
