@@ -198,43 +198,27 @@ const VotingInterface = ({ onViewResults }) => {
     if (over.id.startsWith('slot-')) {
       const slotIndex = parseInt(over.id.replace('slot-', ''));
       
-      // Get the position of the drop relative to the slot
-      const overElement = over.rect;
-      const activeElement = active.rect.current.translated;
+      // Simplified insertion logic: just insert at the slot position
+      // If slot is empty, insert at that position
+      // If slot is filled, replace or insert based on source
       
-      if (overElement && activeElement) {
-        // Calculate the center of the dragged element relative to the slot
-        const draggedCenterX = activeElement.left + activeElement.width / 2;
-        const slotCenterX = overElement.left + overElement.width / 2;
+      if (source === 'ranking') {
+        // Moving within rankings
+        const currentIndex = rankings.findIndex(c => c?.id === candidateId);
+        const targetSlot = rankings[slotIndex];
         
-        // Determine insertion position based on which half
-        let insertPosition = slotIndex;
-        
-        // If candidate is already in rankings, check if we're moving right
-        if (source === 'ranking') {
-          const currentIndex = rankings.findIndex(c => c?.id === candidateId);
-          
-          // If dragging to the right half and we're before this slot, insert after
-          if (draggedCenterX > slotCenterX && currentIndex < slotIndex) {
-            insertPosition = slotIndex + 1;
-          }
-          // If dragging to the left half and we're after this slot, insert before  
-          else if (draggedCenterX <= slotCenterX && currentIndex > slotIndex) {
-            insertPosition = slotIndex;
-          }
-          // Otherwise insert at the slot position
-          else if (draggedCenterX > slotCenterX) {
-            insertPosition = slotIndex + 1;
-          }
+        if (targetSlot === null) {
+          // Dropping on empty slot - insert at that position
+          handleDropOnRanking(candidate, source, slotIndex);
+        } else if (currentIndex < slotIndex) {
+          // Moving right - insert after the target slot
+          handleDropOnRanking(candidate, source, slotIndex + 1);
         } else {
-          // Coming from pool - check which half
-          if (draggedCenterX > slotCenterX) {
-            insertPosition = slotIndex + 1;
-          }
+          // Moving left - insert at the target slot
+          handleDropOnRanking(candidate, source, slotIndex);
         }
-        
-        handleDropOnRanking(candidate, source, insertPosition);
       } else {
+        // Coming from pool - always insert at slot position
         handleDropOnRanking(candidate, source, slotIndex);
       }
     }
