@@ -3,10 +3,12 @@ Voto Escalonado - Backend API
 FastAPI server for ranked-choice voting system
 """
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from contextlib import asynccontextmanager
+import os
+import json
 
 from database import init_db, get_db
 from seed_data import seed_database, get_parties_data
@@ -22,13 +24,10 @@ async def lifespan(app: FastAPI):
     # Startup
     print("🚀 Starting Voto Escalonado API...")
     init_db()
+    print("✅ Database tables created successfully")
     
-    # Seed database with party data if empty
-    db = next(get_db())
-    try:
-        seed_database(db)
-    finally:
-        db.close()
+    # Note: Database seeding is now manual via /admin/seed endpoint
+    # to preserve data across deployments
     
     print("✅ API ready!")
     yield
@@ -211,6 +210,87 @@ async def get_ballot_journey_endpoint(ballot_id: int, db: Session = Depends(get_
         "ballot_id": ballot_id,
         "journey": journey,
         "election_winner": irv_result.winner
+    }
+
+
+# ===== ADMIN ENDPOINTS =====
+
+def verify_admin_key(x_admin_key: str = Header(None)):
+    """Verify admin key from environment variable"""
+    admin_key = os.getenv("ADMIN_KEY")
+    if not admin_key:
+        raise HTTPException(status_code=500, detail="Admin key not configured")
+    if x_admin_key != admin_key:
+        raise HTTPException(status_code=403, detail="Invalid admin key")
+    return True
+
+
+@app.post("/admin/seed")
+def admin_seed_database(db: Session = Depends(get_db), _verified: bool = Depends(verify_admin_key)):
+    """
+    Manually seed database with 20 candidates.
+    Requires X-Admin-Key header.
+    """
+    existing_count = db.query(Party).count()
+    if existing_count > 0:
+        return {
+            "message": f"Database already has {existing_count} parties",
+            "seeded": False
+        }
+    
+    seed_database(db)
+    return {
+        "message": f"Successfully seeded {len(get_parties_data())} parties",
+        "seeded": True
+    }
+
+
+@app.delete("/admin/reset-votes")
+def admin_reset_votes(db: Session = Depends(get_db), _verified: bool = Depends(verify_admin_key)):
+    """
+    Delete all votes but keep candidates.
+    Requires X-Admin-Key header.
+    """
+    vote_count = db.query(Ballot).count()
+    db.query(Ballot).delete()
+    db.commit()
+    
+    return {
+        "message": "All votes deleted",
+        "deleted_votes": vote_count,
+        "candidates_preserved": db.query(Party).count()
+    }
+
+
+@app.get("/admin/export-data")
+def admin_export_data(db: Session = Depends(get_db), _verified: bool = Depends(verify_admin_key)):
+    """
+    Export all votes as JSON.
+    Requires X-Admin-Key header.
+    """
+    ballots = db.query(Ballot).all()
+    parties = db.query(Party).all()
+    
+    return {
+        "export_timestamp": str(os.popen('date').read().strip()),
+        "total_votes": len(ballots),
+        "parties": [
+            {
+                "id": p.id,
+                "name": p.name,
+                "abbreviation": p.abbreviation,
+                "first_lastname": p.first_lastname
+            }
+            for p in parties
+        ],
+        "ballots": [
+            {
+                "id": b.id,
+                "rankings": b.rankings,
+                "timestamp": b.timestamp.isoformat() if b.timestamp else None
+            }
+            for b in ballots
+        ]
     }
 
 
