@@ -198,31 +198,30 @@ const VotingInterface = ({ onViewResults }) => {
     if (over.id.startsWith('slot-')) {
       const slotIndex = parseInt(over.id.replace('slot-', ''));
       
-      // Simplified insertion logic: just insert at the slot position
+      // Get all currently filled positions
+      const filled = rankings.filter(r => r !== null);
+      
       if (source === 'ranking') {
-        // Moving within rankings
-        const currentIndex = rankings.findIndex(c => c?.id === candidateId);
-        const targetSlot = rankings[slotIndex];
-        
-        if (targetSlot === null) {
-          // Dropping on empty slot - insert at that position
-          // Count how many filled slots are before this position
-          const filledCount = rankings.slice(0, slotIndex).filter(r => r !== null).length;
-          handleDropOnRanking(candidate, source, filledCount);
-        } else if (currentIndex < slotIndex) {
-          // Moving right - count filled slots up to and including target
-          const filledCount = rankings.slice(0, slotIndex + 1).filter(r => r !== null).length;
-          handleDropOnRanking(candidate, source, filledCount);
-        } else {
-          // Moving left - count filled slots up to target (not including)
-          const filledCount = rankings.slice(0, slotIndex).filter(r => r !== null).length;
-          handleDropOnRanking(candidate, source, filledCount);
+        // Moving within rankings - remove from current position first
+        const currentFilledIndex = filled.findIndex(c => c.id === candidateId);
+        if (currentFilledIndex !== -1) {
+          filled.splice(currentFilledIndex, 1);
         }
-      } else {
-        // Coming from pool - count filled slots up to this position
-        const filledCount = rankings.slice(0, slotIndex).filter(r => r !== null).length;
-        handleDropOnRanking(candidate, source, filledCount);
       }
+      
+      // Now insert at the slot position
+      // Count how many filled slots exist at or before this slot
+      let insertIndex = 0;
+      for (let i = 0; i <= slotIndex && i < rankings.length; i++) {
+        if (rankings[i] !== null && rankings[i]?.id !== candidateId) {
+          insertIndex++;
+        }
+      }
+      
+      // Insert at the calculated position
+      filled.splice(insertIndex, 0, candidate);
+      
+      handleDropOnRanking(candidate, source, insertIndex);
     }
   };
 
@@ -450,7 +449,7 @@ const VotingInterface = ({ onViewResults }) => {
         <div className="voting-header">
           <h1>Voto Escalonado Costa Rica 2026</h1>
           <p className="instructions">
-            ¡Tocá para agregar/quitar hasta 5 candidatos!o
+            ¡Tocá para agregar/quitar hasta 5 candidatos!1
             <br />
             Arrastrá para reordenar.
             <br />
