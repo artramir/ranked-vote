@@ -3,12 +3,26 @@ import './Results.css';
 
 const Results = ({ onBackToVote }) => {
   const [results, setResults] = useState(null);
+  const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hoveredCandidate, setHoveredCandidate] = useState(null);
 
   useEffect(() => {
+    fetchCandidates();
     fetchResults();
   }, []);
+
+  const fetchCandidates = async () => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/candidates`);
+      const data = await response.json();
+      setCandidates(data.candidates);
+    } catch (err) {
+      console.error('Error fetching candidates:', err);
+    }
+  };
 
   const fetchResults = async () => {
     try {
@@ -22,6 +36,10 @@ const Results = ({ onBackToVote }) => {
       setError('Error al cargar los resultados');
       setLoading(false);
     }
+  };
+
+  const getCandidateById = (id) => {
+    return candidates.find(c => c.id === parseInt(id));
   };
 
   if (loading) {
@@ -56,9 +74,15 @@ const Results = ({ onBackToVote }) => {
           <div className="summary-label">Votos Totales</div>
         </div>
         
-        {results.winner && (
+        {results.winner && results.winner_party_id && (
           <div className="summary-card winner-card">
-            <div className="winner-icon">🏆</div>
+            {getCandidateById(results.winner_party_id) && (
+              <img 
+                src={getCandidateById(results.winner_party_id).photo_url} 
+                alt={results.winner}
+                className="winner-photo"
+              />
+            )}
             <div className="winner-name">{results.winner}</div>
             <div className="summary-label">Ganador</div>
           </div>
@@ -71,18 +95,6 @@ const Results = ({ onBackToVote }) => {
             <div className="summary-label">
               {results.tie_candidates?.length} candidatos empatados
             </div>
-          </div>
-        )}
-        
-        <div className="summary-card">
-          <div className="summary-number">{results.rounds?.length || 0}</div>
-          <div className="summary-label">Rondas de Eliminación</div>
-        </div>
-
-        {results.exhausted_ballots > 0 && (
-          <div className="summary-card">
-            <div className="summary-number">{results.exhausted_ballots}</div>
-            <div className="summary-label">Votos Agotados</div>
           </div>
         )}
       </div>
@@ -105,26 +117,44 @@ const Results = ({ onBackToVote }) => {
             <div className="votes-table">
               {Object.entries(round.votes || {})
                 .sort((a, b) => b[1].votes - a[1].votes)
-                .map(([candidateId, data]) => (
-                  <div key={candidateId} className="vote-row">
-                    <div className="candidate-column">
-                      <span className="candidate-abbr">{data.abbreviation}</span>
-                      <span className="candidate-full-name">{data.candidate_name}</span>
-                    </div>
-                    <div className="votes-column">
-                      <div className="vote-bar-container">
+                .map(([candidateId, data]) => {
+                  const candidate = getCandidateById(candidateId);
+                  return (
+                    <div key={candidateId} className="vote-row">
+                      <div className="candidate-column">
                         <div 
-                          className="vote-bar" 
-                          style={{ 
-                            width: `${data.percentage}%`,
-                            backgroundColor: data.percentage > 50 ? '#4caf50' : '#2196f3'
-                          }}
-                        />
+                          className="candidate-photo-wrapper"
+                          onMouseEnter={() => setHoveredCandidate(candidateId)}
+                          onMouseLeave={() => setHoveredCandidate(null)}
+                          onClick={() => setHoveredCandidate(hoveredCandidate === candidateId ? null : candidateId)}
+                        >
+                          {candidate && (
+                            <img 
+                              src={candidate.photo_url} 
+                              alt={data.first_lastname}
+                              className="candidate-photo-small"
+                            />
+                          )}
+                          {hoveredCandidate === candidateId && (
+                            <div className="candidate-name-tooltip">{data.first_lastname}</div>
+                          )}
+                        </div>
                       </div>
-                      <span className="vote-count">{data.votes} votos ({data.percentage}%)</span>
+                      <div className="votes-column">
+                        <div className="vote-bar-container">
+                          <div 
+                            className="vote-bar" 
+                            style={{ 
+                              width: `${data.percentage}%`,
+                              backgroundColor: data.percentage > 50 ? '#4caf50' : '#2196f3'
+                            }}
+                          />
+                        </div>
+                        <span className="vote-count">{data.votes} votos ({data.percentage}%)</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
             </div>
 
             {round.eliminated && round.eliminated.length > 0 && (
@@ -132,7 +162,7 @@ const Results = ({ onBackToVote }) => {
                 <span className="eliminated-label">❌ Eliminado(s): </span>
                 {round.eliminated.map((elim, idx) => (
                   <span key={idx} className="eliminated-candidate">
-                    {elim.candidate_name} ({elim.abbreviation}) - {elim.votes} votos
+                    {elim.first_lastname} ({elim.abbreviation}) - {elim.votes} votos
                     {idx < round.eliminated.length - 1 && ', '}
                   </span>
                 ))}
@@ -148,7 +178,7 @@ const Results = ({ onBackToVote }) => {
           <div className="tie-candidates">
             {results.tie_candidates.map((candidate, idx) => (
               <div key={idx} className="tie-candidate">
-                <span>{candidate.candidate_name}</span>
+                <span>{candidate.first_lastname}</span>
                 <span>{candidate.votes} votos</span>
               </div>
             ))}

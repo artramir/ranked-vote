@@ -134,7 +134,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
                 result.winner_party_id = candidate_id
                 result.exhausted_ballots = exhausted_this_round
                 round_data["eliminated"] = []
-                round_data["reason"] = f"Winner achieved majority with {votes}/{active_votes} votes"
+                round_data["reason"] = f"Ganador alcanzó mayoría con {votes}/{active_votes} votos"
                 return result
         
         # Check if only one candidate remains
@@ -144,7 +144,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
             result.winner_party_id = winner_id
             result.exhausted_ballots = exhausted_this_round
             round_data["eliminated"] = []
-            round_data["reason"] = "Last candidate remaining"
+            round_data["reason"] = "Último candidato restante"
             return result
         
         # Check if all remaining candidates are tied
@@ -161,7 +161,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
             ]
             result.exhausted_ballots = exhausted_this_round
             round_data["eliminated"] = []
-            round_data["reason"] = "Perfect tie - no elimination possible"
+            round_data["reason"] = "Empate perfecto - no es posible eliminación"
             return result
         
         # Find candidate(s) with fewest votes to eliminate
@@ -183,9 +183,9 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
         ]
         
         if len(candidates_to_eliminate) == 1:
-            round_data["reason"] = f"Eliminated candidate with fewest votes ({min_votes})"
+            round_data["reason"] = f"Eliminado candidato con menos votos ({min_votes})"
         else:
-            round_data["reason"] = f"Eliminated {len(candidates_to_eliminate)} candidates tied with fewest votes ({min_votes})"
+            round_data["reason"] = f"Eliminados {len(candidates_to_eliminate)} candidatos empatados con menos votos ({min_votes})"
         
         # Eliminate candidates
         for candidate_id in candidates_to_eliminate:
@@ -203,7 +203,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
                 for cid in active_candidates
             ]
             result.exhausted_ballots = exhausted_this_round
-            round_data["reason"] = "Maximum rounds exceeded - algorithm safety stop"
+            round_data["reason"] = "Máximo de rondas excedido - detención de seguridad del algoritmo"
             return result
         
         round_number += 1
@@ -263,7 +263,7 @@ def get_ballot_journey(ballot_rankings: List[int], parties: Dict[int, Dict], ele
                 "voted_for": parties[current_candidate_id]["first_lastname"],
                 "abbreviation": parties[current_candidate_id]["abbreviation"],
                 "status": "eliminated",
-                "message": f"{parties[current_candidate_id]['first_lastname']} was eliminated"
+                "message": f"{parties[current_candidate_id]['first_lastname']} fue eliminado"
             })
             # Move to next preference
             current_choice_index += 1
@@ -284,7 +284,7 @@ def get_ballot_journey(ballot_rankings: List[int], parties: Dict[int, Dict], ele
                 "voted_for": parties[current_candidate_id]["first_lastname"],
                 "abbreviation": parties[current_candidate_id]["abbreviation"],
                 "status": "already_eliminated",
-                "message": f"{parties[current_candidate_id]['first_lastname']} was eliminated in a previous round"
+                "message": f"{parties[current_candidate_id]['first_lastname']} fue eliminado en una ronda anterior"
             })
             current_choice_index += 1
     

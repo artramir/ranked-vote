@@ -65,9 +65,13 @@
   border: 3px solid #ffc107;
 }
 
-.winner-icon {
-  font-size: 48px;
-  margin-bottom: 8px;
+.winner-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 12px;
+  border: 3px solid #ffc107;
 }
 
 .winner-name {
@@ -150,7 +154,7 @@
 
 .vote-row {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: auto 1fr;
   gap: 16px;
   align-items: center;
 }
@@ -160,15 +164,37 @@
   flex-direction: column;
 }
 
-.candidate-abbr {
-  font-weight: bold;
-  color: #003f7f;
-  font-size: 16px;
+.candidate-photo-wrapper {
+  position: relative;
+  cursor: pointer;
 }
 
-.candidate-full-name {
-  font-size: 13px;
-  color: #666;
+.candidate-photo-small {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2196f3;
+  transition: transform 0.2s ease;
+}
+
+.candidate-photo-small:hover {
+  transform: scale(1.1);
+}
+
+.candidate-name-tooltip {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+  z-index: 10;
+  pointer-events: none;
 }
 
 .votes-column {
@@ -327,16 +353,29 @@
   }
 
   .vote-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+  }
+
+  .candidate-photo-small {
+    width: 40px;
+    height: 40px;
   }
 
   .votes-column {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vote-bar-container {
+    flex: 1;
+    min-width: 0;
   }
 
   .vote-count {
-    text-align: left;
+    min-width: 90px;
+    font-size: 12px;
   }
 }
