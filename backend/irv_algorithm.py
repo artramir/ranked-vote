@@ -120,7 +120,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
             round_data["votes"][candidate_id] = {
                 "party_name": parties[candidate_id]["name"],
                 "abbreviation": parties[candidate_id]["abbreviation"],
-                "candidate_name": parties[candidate_id]["candidate_name"],
+                "first_lastname": parties[candidate_id]["first_lastname"],
                 "votes": votes,
                 "percentage": round(percentage, 2)
             }
@@ -130,7 +130,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
         # Check for winner: candidate with >50% of active votes
         for candidate_id, votes in vote_counts.items():
             if active_votes > 0 and votes > (active_votes / 2):
-                result.winner = parties[candidate_id]["candidate_name"]
+                result.winner = parties[candidate_id]["first_lastname"]
                 result.winner_party_id = candidate_id
                 result.exhausted_ballots = exhausted_this_round
                 round_data["eliminated"] = []
@@ -140,7 +140,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
         # Check if only one candidate remains
         if len(active_candidates) == 1:
             winner_id = list(active_candidates)[0]
-            result.winner = parties[winner_id]["candidate_name"]
+            result.winner = parties[winner_id]["first_lastname"]
             result.winner_party_id = winner_id
             result.exhausted_ballots = exhausted_this_round
             round_data["eliminated"] = []
@@ -154,7 +154,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
             result.tie_candidates = [
                 {
                     "party_id": cid,
-                    "candidate_name": parties[cid]["candidate_name"],
+                    "first_lastname": parties[cid]["first_lastname"],
                     "votes": vote_counts.get(cid, 0)
                 }
                 for cid in active_candidates
@@ -175,7 +175,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
         round_data["eliminated"] = [
             {
                 "party_id": cid,
-                "candidate_name": parties[cid]["candidate_name"],
+                "first_lastname": parties[cid]["first_lastname"],
                 "abbreviation": parties[cid]["abbreviation"],
                 "votes": vote_counts.get(cid, 0)
             }
@@ -197,7 +197,7 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
             result.tie_candidates = [
                 {
                     "party_id": cid,
-                    "candidate_name": parties[cid]["candidate_name"],
+                    "first_lastname": parties[cid]["first_lastname"],
                     "votes": vote_counts.get(cid, 0)
                 }
                 for cid in active_candidates
@@ -226,7 +226,7 @@ def get_ballot_journey(ballot_rankings: List[int], parties: Dict[int, Dict], ele
             {
                 "rank": idx + 1,
                 "party_id": party_id,
-                "candidate_name": parties[party_id]["candidate_name"],
+                "first_lastname": parties[party_id]["first_lastname"],
                 "abbreviation": parties[party_id]["abbreviation"]
             }
             for idx, party_id in enumerate(ballot_rankings)
@@ -260,10 +260,10 @@ def get_ballot_journey(ballot_rankings: List[int], parties: Dict[int, Dict], ele
         if current_candidate_id in eliminated_ids:
             journey["transfers"].append({
                 "round": round_data["round"],
-                "voted_for": parties[current_candidate_id]["candidate_name"],
+                "voted_for": parties[current_candidate_id]["first_lastname"],
                 "abbreviation": parties[current_candidate_id]["abbreviation"],
                 "status": "eliminated",
-                "message": f"{parties[current_candidate_id]['candidate_name']} was eliminated"
+                "message": f"{parties[current_candidate_id]['first_lastname']} was eliminated"
             })
             # Move to next preference
             current_choice_index += 1
@@ -271,7 +271,7 @@ def get_ballot_journey(ballot_rankings: List[int], parties: Dict[int, Dict], ele
             # Candidate is active and receiving votes this round
             journey["transfers"].append({
                 "round": round_data["round"],
-                "voted_for": parties[current_candidate_id]["candidate_name"],
+                "voted_for": parties[current_candidate_id]["first_lastname"],
                 "abbreviation": parties[current_candidate_id]["abbreviation"],
                 "status": "active",
                 "votes": round_data["votes"][current_candidate_id]["votes"],
@@ -281,10 +281,10 @@ def get_ballot_journey(ballot_rankings: List[int], parties: Dict[int, Dict], ele
             # Candidate was eliminated in a previous round - skip to next preference
             journey["transfers"].append({
                 "round": round_data["round"],
-                "voted_for": parties[current_candidate_id]["candidate_name"],
+                "voted_for": parties[current_candidate_id]["first_lastname"],
                 "abbreviation": parties[current_candidate_id]["abbreviation"],
                 "status": "already_eliminated",
-                "message": f"{parties[current_candidate_id]['candidate_name']} was eliminated in a previous round"
+                "message": f"{parties[current_candidate_id]['first_lastname']} was eliminated in a previous round"
             })
             current_choice_index += 1
     

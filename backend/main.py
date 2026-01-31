@@ -150,7 +150,11 @@ async def get_results(db: Session = Depends(get_db)):
         party.id: {
             "name": party.name,
             "abbreviation": party.abbreviation,
-            "candidate_name": party.candidate_name,
+            "first_firstname": party.first_firstname,
+            "second_firstname": party.second_firstname,
+            "display_firstname": party.display_firstname,
+            "first_lastname": party.first_lastname,
+            "second_lastname": party.second_lastname,
             "color": party.color,
             "photo_url": party.photo_url,
             "flag_url": party.flag_url
