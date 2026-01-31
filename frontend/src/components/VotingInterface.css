@@ -173,9 +173,16 @@
 .ranking-slot .candidate-photo img {
   width: 90px !important;
   height: 90px !important;
-  object-fit: cover !important;
   border-radius: 50% !important;
   aspect-ratio: 1 / 1 !important;
+}
+
+.ranking-slot .candidate-photo .photo-image {
+  object-fit: cover !important;
+}
+
+.ranking-slot .candidate-photo .flag-image {
+  object-fit: contain !important;
 }
 
 .ranking-slot .candidate-name {

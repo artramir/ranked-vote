@@ -7,12 +7,13 @@ from fastapi import FastAPI, Depends, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from contextlib import asynccontextmanager
+from datetime import datetime
 import os
 import json
 
 from database import init_db, get_db
 from seed_data import seed_database, get_parties_data
-from models import Party, Ballot
+from models import Party, Ballot, VoteIntentionChange, Feedback
 from irv_algorithm import compute_irv_results, get_ballot_journey
 
 
@@ -292,6 +293,77 @@ def admin_export_data(db: Session = Depends(get_db), _verified: bool = Depends(v
             for b in ballots
         ]
     }
+
+
+@app.post("/api/vote-intention")
+async def submit_vote_intention(data: dict, db: Session = Depends(get_db)):
+    """
+    Submit whether vote intention changed due to the poll.
+    Uses session hash to allow updating response.
+    """
+    changed = data.get("changed")
+    session_hash = data.get("session_hash", "default")
+    
+    if changed not in [0, 1]:
+        return {"success": False, "error": "changed must be 0 or 1"}
+    
+    # Check if user already responded
+    existing = db.query(VoteIntentionChange).filter(
+        VoteIntentionChange.session_hash == session_hash
+    ).first()
+    
+    if existing:
+        existing.changed = changed
+        existing.timestamp = datetime.utcnow()
+    else:
+        response = VoteIntentionChange(session_hash=session_hash, changed=changed)
+        db.add(response)
+    
+    db.commit()
+    
+    return {"success": True}
+
+
+@app.get("/api/vote-intention-stats")
+async def get_vote_intention_stats(db: Session = Depends(get_db)):
+    """Get aggregated vote intention change statistics"""
+    yes_count = db.query(VoteIntentionChange).filter(VoteIntentionChange.changed == 1).count()
+    no_count = db.query(VoteIntentionChange).filter(VoteIntentionChange.changed == 0).count()
+    
+    return {
+        "yes": yes_count,
+        "no": no_count,
+        "total": yes_count + no_count
+    }
+
+
+@app.post("/api/feedback")
+async def submit_feedback(data: dict, db: Session = Depends(get_db)):
+    """
+    Submit feedback message.
+    Uses session hash to allow updating message.
+    """
+    message = data.get("message", "").strip()
+    session_hash = data.get("session_hash", "default")
+    
+    if not message:
+        return {"success": False, "error": "Message cannot be empty"}
+    
+    # Check if user already submitted feedback
+    existing = db.query(Feedback).filter(
+        Feedback.session_hash == session_hash
+    ).first()
+    
+    if existing:
+        existing.message = message
+        existing.timestamp = datetime.utcnow()
+    else:
+        feedback = Feedback(session_hash=session_hash, message=message)
+        db.add(feedback)
+    
+    db.commit()
+    
+    return {"success": True}
 
 
 if __name__ == "__main__":

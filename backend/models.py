@@ -85,3 +85,33 @@ class ElectionSnapshot(Base):
     
     def __repr__(self):
         return f"<ElectionSnapshot(id={self.id}, total_ballots={self.total_ballots}, timestamp={self.timestamp})>"
+
+
+class VoteIntentionChange(Base):
+    """
+    Tracks whether users report their vote intention changed due to the poll
+    """
+    __tablename__ = "vote_intention_changes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    session_hash = Column(String(64), unique=True, nullable=False, index=True)
+    changed = Column(Integer, nullable=False)  # 1 for Yes, 0 for No
+    timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+    
+    def __repr__(self):
+        return f"<VoteIntentionChange(id={self.id}, changed={self.changed})>"
+
+
+class Feedback(Base):
+    """
+    Stores user feedback messages
+    """
+    __tablename__ = "feedback"
+
+    id = Column(Integer, primary_key=True, index=True)
+    session_hash = Column(String(64), unique=True, nullable=False, index=True)
+    message = Column(Text, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+    
+    def __repr__(self):
+        return f"<Feedback(id={self.id}, timestamp={self.timestamp})>"

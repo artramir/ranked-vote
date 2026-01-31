@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InfoModal from './InfoModal';
+import FeedbackModal from './FeedbackModal';
 import './Results.css';
 
 const Results = ({ onBackToVote }) => {
@@ -9,6 +10,16 @@ const Results = ({ onBackToVote }) => {
   const [error, setError] = useState(null);
   const [hoveredCandidate, setHoveredCandidate] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [voteIntention, setVoteIntention] = useState(null);
+  const [sessionHash] = useState(() => {
+    let hash = localStorage.getItem('sessionHash');
+    if (!hash) {
+      hash = 'session_' + Math.random().toString(36).substring(2, 15);
+      localStorage.setItem('sessionHash', hash);
+    }
+    return hash;
+  });
 
   useEffect(() => {
     fetchCandidates();
@@ -40,6 +51,28 @@ const Results = ({ onBackToVote }) => {
     }
   };
 
+  const submitVoteIntention = async (changed) => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      await fetch(`${apiUrl}/api/vote-intention`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ changed, session_hash: sessionHash })
+      });
+      setVoteIntention(changed);
+      localStorage.setItem('voteIntention', changed.toString());
+    } catch (err) {
+      console.error('Error submitting vote intention:', err);
+    }
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem('voteIntention');
+    if (saved) {
+      setVoteIntention(parseInt(saved));
+    }
+  }, []);
+
   const getCandidateById = (id) => {
     return candidates.find(c => c.id === parseInt(id));
   };
@@ -68,8 +101,10 @@ const Results = ({ onBackToVote }) => {
     <div className="results-container">
       <div className="results-header">
         <h1>Resultados - Voto Escalonado</h1>
-        <p className="results-info-link">
-          <span className="info-link" onClick={() => setShowInfo(true)}>(¿Cómo era que funcionaba?)</span>
+        <p className="results-info-links">
+          <span className="info-link" onClick={() => setShowFeedback(true)}>Info</span>
+          <br />
+          <span className="info-link" onClick={() => setShowInfo(true)}>¿Cómo era que funcionaba?</span>
         </p>
       </div>
 
@@ -96,6 +131,26 @@ const Results = ({ onBackToVote }) => {
         <div className="summary-card">
           <div className="summary-number">{results.total_ballots}</div>
           <div className="summary-label">Votos Totales</div>
+        </div>
+        
+        <div className="summary-card vote-intention-card">
+          <div className="vote-intention-question">
+            ¿Su intención de voto cambió debido a esta encuesta?
+          </div>
+          <div className="vote-intention-buttons">
+            <button 
+              className={`vote-intention-btn ${voteIntention === 1 ? 'selected' : ''}`}
+              onClick={() => submitVoteIntention(1)}
+            >
+              Sí
+            </button>
+            <button 
+              className={`vote-intention-btn ${voteIntention === 0 ? 'selected' : ''}`}
+              onClick={() => submitVoteIntention(0)}
+            >
+              No
+            </button>
+          </div>
         </div>
 
         {results.tied && (
@@ -201,6 +256,7 @@ const Results = ({ onBackToVote }) => {
       </button>
       
       {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
+      {showFeedback && <FeedbackModal onClose={() => setShowFeedback(false)} sessionHash={sessionHash} />}
     </div>
   );
 };

@@ -16,12 +16,12 @@
   margin-bottom: 8px;
 }
 
-.results-info-link {
+.results-info-links {
   font-size: 14px;
   margin-top: 4px;
 }
 
-.results-info-link .info-link {
+.results-info-links .info-link {
   color: #99ccff;
   text-decoration: underline;
   font-weight: bold;
@@ -29,7 +29,7 @@
   transition: color 0.2s;
 }
 
-.results-info-link .info-link:hover {
+.results-info-links .info-link:hover {
   color: #80b3ff;
 }
 
@@ -113,6 +113,47 @@
   color: #555;
   line-height: 1.4;
   font-weight: 500;
+}
+
+.vote-intention-card {
+  grid-column: span 2;
+  padding: 16px;
+}
+
+.vote-intention-question {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.vote-intention-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.vote-intention-btn {
+  flex: 1;
+  padding: 8px 16px;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vote-intention-btn:hover {
+  background: #f0f0ff;
+}
+
+.vote-intention-btn.selected {
+  background: #667eea;
+  color: white;
 }
 
 .tie-card {
@@ -373,6 +414,18 @@
 
 /* Mobile responsive */
 @media (max-width: 768px) {
+  .vote-intention-card {
+    grid-column: span 1;
+  }
+  
+  .vote-intention-question {
+    font-size: 13px;
+  }
+  
+  .vote-intention-btn {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
   .results-header {
     flex-direction: column;
     gap: 16px;
