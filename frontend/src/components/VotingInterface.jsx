@@ -199,9 +199,6 @@ const VotingInterface = ({ onViewResults }) => {
       const slotIndex = parseInt(over.id.replace('slot-', ''));
       
       // Simplified insertion logic: just insert at the slot position
-      // If slot is empty, insert at that position
-      // If slot is filled, replace or insert based on source
-      
       if (source === 'ranking') {
         // Moving within rankings
         const currentIndex = rankings.findIndex(c => c?.id === candidateId);
@@ -209,17 +206,22 @@ const VotingInterface = ({ onViewResults }) => {
         
         if (targetSlot === null) {
           // Dropping on empty slot - insert at that position
-          handleDropOnRanking(candidate, source, slotIndex);
+          // Count how many filled slots are before this position
+          const filledCount = rankings.slice(0, slotIndex).filter(r => r !== null).length;
+          handleDropOnRanking(candidate, source, filledCount);
         } else if (currentIndex < slotIndex) {
-          // Moving right - insert after the target slot
-          handleDropOnRanking(candidate, source, slotIndex + 1);
+          // Moving right - count filled slots up to and including target
+          const filledCount = rankings.slice(0, slotIndex + 1).filter(r => r !== null).length;
+          handleDropOnRanking(candidate, source, filledCount);
         } else {
-          // Moving left - insert at the target slot
-          handleDropOnRanking(candidate, source, slotIndex);
+          // Moving left - count filled slots up to target (not including)
+          const filledCount = rankings.slice(0, slotIndex).filter(r => r !== null).length;
+          handleDropOnRanking(candidate, source, filledCount);
         }
       } else {
-        // Coming from pool - always insert at slot position
-        handleDropOnRanking(candidate, source, slotIndex);
+        // Coming from pool - count filled slots up to this position
+        const filledCount = rankings.slice(0, slotIndex).filter(r => r !== null).length;
+        handleDropOnRanking(candidate, source, filledCount);
       }
     }
   };
@@ -448,7 +450,7 @@ const VotingInterface = ({ onViewResults }) => {
         <div className="voting-header">
           <h1>Voto Escalonado Costa Rica 2026</h1>
           <p className="instructions">
-            ¡Tocá para agregar/quitar hasta 5 candidatos!-
+            ¡Tocá para agregar/quitar hasta 5 candidatos!o
             <br />
             Arrastrá para reordenar.
             <br />
