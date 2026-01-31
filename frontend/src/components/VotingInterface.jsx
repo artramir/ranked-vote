@@ -112,7 +112,7 @@ const VotingInterface = ({ onViewResults }) => {
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 10,
+        distance: 8,
         tolerance: 5,
       },
     })
