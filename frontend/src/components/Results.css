@@ -61,6 +61,10 @@
   padding: 24px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .summary-number {
@@ -81,6 +85,13 @@
   border: 3px solid #ffc107;
 }
 
+.winner-label {
+  color: #003f7f;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
 .winner-photo {
   width: 80px;
   height: 80px;
@@ -91,10 +102,17 @@
 }
 
 .winner-name {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: #003f7f;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.winner-votes-info {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+  font-weight: 500;
 }
 
 .tie-card {

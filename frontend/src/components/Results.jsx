@@ -76,6 +76,7 @@ const Results = ({ onBackToVote }) => {
       <div className="results-summary">
         {results.winner && results.winner_party_id && (
           <div className="summary-card winner-card">
+            <div className="summary-label winner-label">Ganador</div>
             {getCandidateById(results.winner_party_id) && (
               <img 
                 src={getCandidateById(results.winner_party_id).photo_url} 
@@ -83,8 +84,12 @@ const Results = ({ onBackToVote }) => {
                 className="winner-photo"
               />
             )}
-            <div className="winner-name">{results.winner}</div>
-            <div className="summary-label">Ganador</div>
+            <div className="winner-name">
+              {getCandidateById(results.winner_party_id)?.display_firstname || ''} {getCandidateById(results.winner_party_id)?.first_lastname || results.winner}
+            </div>
+            <div className="winner-votes-info">
+              Votos primera opción + reasignados: {results.rounds[results.rounds.length - 1]?.votes[results.winner_party_id]?.votes || 0} ({results.rounds[results.rounds.length - 1]?.votes[results.winner_party_id]?.percentage || 0}%)
+            </div>
           </div>
         )}
         

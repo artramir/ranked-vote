@@ -116,7 +116,8 @@ def compute_irv_results(ballots: List[Dict], parties: Dict[int, Dict]) -> IRVRes
         
         for candidate_id in active_candidates:
             votes = vote_counts.get(candidate_id, 0)
-            percentage = (votes / active_votes * 100) if active_votes > 0 else 0
+            # Calculate percentage based on total ballots cast, not active votes
+            percentage = (votes / result.total_ballots * 100) if result.total_ballots > 0 else 0
             round_data["votes"][candidate_id] = {
                 "party_name": parties[candidate_id]["name"],
                 "abbreviation": parties[candidate_id]["abbreviation"],

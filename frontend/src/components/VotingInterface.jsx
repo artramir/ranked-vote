@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InfoModal from './InfoModal';
+import AlertModal from './AlertModal';
 import {
   DndContext,
   DragOverlay,
@@ -101,6 +102,7 @@ const VotingInterface = ({ onViewResults }) => {
   const [ballotId, setBallotId] = useState(null);
   const [globalRotation, setGlobalRotation] = useState(0);
   const [showInfo, setShowInfo] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -110,7 +112,7 @@ const VotingInterface = ({ onViewResults }) => {
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 250,
+        delay: 10,
         tolerance: 5,
       },
     })
@@ -361,7 +363,7 @@ const VotingInterface = ({ onViewResults }) => {
   const addToNextSlot = (candidate) => {
     const emptyIndex = rankings.findIndex(r => r === null);
     if (emptyIndex === -1) {
-      alert('Ya seleccionaste 5 candidatos. Remové uno para agregar otro.');
+      setAlertMessage('Ya seleccionaste 5 candidatos.\nRemové uno para agregar otro.');
       return;
     }
     let newRankings = [...rankings];
@@ -434,7 +436,7 @@ const VotingInterface = ({ onViewResults }) => {
         </p>
         <div className="success-actions">
           <button onClick={onViewResults} className="btn-results">
-            Ver Resultados
+            Ver resultados
           </button>
         </div>
       </div>
@@ -462,17 +464,19 @@ const VotingInterface = ({ onViewResults }) => {
         <div className="voting-header">
           <h1>Voto Escalonado Costa Rica 2026</h1>
           <p className="instructions">
-            ¡Tocá para agregar/quitar hasta 5 candidatos! Arrastrá para reordenar.
+            ¡Tocá para agregar/quitar hasta 5 candidatos!
+            <br />
+            Arrastrá para reordenar.
             <br />
             <span className="info-link" onClick={() => setShowInfo(true)}>(¿Cómo era que funcionaba?)</span>
           </p>
           <button onClick={onViewResults} className="btn-view-results-small">
-            Ver Resultados
+            Ver resultados
           </button>
         </div>
 
         <div className="ranking-section">
-          <h2>Tu Orden de Preferencia</h2>
+          <h2>Tu orden de preferencia</h2>
           <div className="ranking-slots">
             {rankings.map((candidate, index) => (
               <DroppableSlot
@@ -520,6 +524,7 @@ const VotingInterface = ({ onViewResults }) => {
       </DragOverlay>
       
       {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
+      {alertMessage && <AlertModal message={alertMessage} onClose={() => setAlertMessage(null)} />}
     </DndContext>
   );
 };
