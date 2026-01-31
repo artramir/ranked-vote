@@ -52,8 +52,8 @@ const DraggableCandidate = ({ candidate, rank, onRemove, onClick, compact, globa
 };
 
 // Droppable slot component
-const DroppableSlot = ({ id, slotNumber, candidate, onRemove, globalRotation }) => {
-  const { setNodeRef, isOver } = useDroppable({ id });
+const DroppableSlot = ({ id, slotNumber, candidate, onRemove, isOver, globalRotation }) => {
+  const { setNodeRef } = useSortable({ id, disabled: true });
 
   return (
     <div className="ranking-slot-container">
@@ -198,30 +198,45 @@ const VotingInterface = ({ onViewResults }) => {
     if (over.id.startsWith('slot-')) {
       const slotIndex = parseInt(over.id.replace('slot-', ''));
       
-      // Get all currently filled positions
-      const filled = rankings.filter(r => r !== null);
+      // Get the position of the drop relative to the slot
+      const overElement = over.rect;
+      const activeElement = active.rect.current.translated;
       
-      if (source === 'ranking') {
-        // Moving within rankings - remove from current position first
-        const currentFilledIndex = filled.findIndex(c => c.id === candidateId);
-        if (currentFilledIndex !== -1) {
-          filled.splice(currentFilledIndex, 1);
+      if (overElement && activeElement) {
+        // Calculate the center of the dragged element relative to the slot
+        const draggedCenterX = activeElement.left + activeElement.width / 2;
+        const slotCenterX = overElement.left + overElement.width / 2;
+        
+        // Determine insertion position based on which half
+        let insertPosition = slotIndex;
+        
+        // If candidate is already in rankings, check if we're moving right
+        if (source === 'ranking') {
+          const currentIndex = rankings.findIndex(c => c?.id === candidateId);
+          
+          // If dragging to the right half and we're before this slot, insert after
+          if (draggedCenterX > slotCenterX && currentIndex < slotIndex) {
+            insertPosition = slotIndex + 1;
+          }
+          // If dragging to the left half and we're after this slot, insert before  
+          else if (draggedCenterX <= slotCenterX && currentIndex > slotIndex) {
+            insertPosition = slotIndex;
+          }
+          // Otherwise insert at the slot position
+          else if (draggedCenterX > slotCenterX) {
+            insertPosition = slotIndex + 1;
+          }
+        } else {
+          // Coming from pool - check which half
+          if (draggedCenterX > slotCenterX) {
+            insertPosition = slotIndex + 1;
+          }
         }
+        
+        handleDropOnRanking(candidate, source, insertPosition);
+      } else {
+        handleDropOnRanking(candidate, source, slotIndex);
       }
-      
-      // Now insert at the slot position
-      // Count how many filled slots exist at or before this slot
-      let insertIndex = 0;
-      for (let i = 0; i <= slotIndex && i < rankings.length; i++) {
-        if (rankings[i] !== null && rankings[i]?.id !== candidateId) {
-          insertIndex++;
-        }
-      }
-      
-      // Insert at the calculated position
-      filled.splice(insertIndex, 0, candidate);
-      
-      handleDropOnRanking(candidate, source, insertIndex);
     }
   };
 
@@ -449,7 +464,7 @@ const VotingInterface = ({ onViewResults }) => {
         <div className="voting-header">
           <h1>Voto Escalonado Costa Rica 2026</h1>
           <p className="instructions">
-            ¡Tocá para agregar/quitar hasta 5 candidatos!2
+            ¡Tocá para agregar/quitar hasta 5 candidatos!
             <br />
             Arrastrá para reordenar.
             <br />
@@ -470,6 +485,7 @@ const VotingInterface = ({ onViewResults }) => {
                 slotNumber={index + 1}
                 candidate={candidate}
                 onRemove={() => removeFromRanking(index)}
+                isOver={false}
                 globalRotation={globalRotation}
               />
             ))}
