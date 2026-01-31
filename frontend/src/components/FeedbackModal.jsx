@@ -59,7 +59,7 @@ function FeedbackModal({ onClose, sessionHash }) {
           </button>
           
           <div className="feedback-info">
-            <p>Este sitio fue creado en pocas horas con el agente de I.A. Copilot de GitHub.</p>
+            <p>Este sitio fue creado en pocas horas con el agente de I.A. Copilot de GitHub..</p>
             <p className="feedback-version">Versión 1.0</p>
             <p className="feedback-author">Ramírez, 2026</p>
           </div>
