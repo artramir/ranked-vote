@@ -33,6 +33,16 @@
   color: #80b3ff;
 }
 
+.results-info-links .info-link-spacer {
+  color: #99ccff;
+  margin: 0 8px;
+  user-select: none;
+}
+
+.btn-refresh-top {
+  margin: 12px 0;
+}
+
 .btn-back-small {
   padding: 10px 20px;
   background: rgba(255, 255, 255, 0.2);
@@ -414,6 +424,10 @@
 
 /* Mobile responsive */
 @media (max-width: 768px) {
+  .summary-card {
+    padding: 16px 24px;
+  }
+  
   .vote-intention-card {
     grid-column: span 1;
   }

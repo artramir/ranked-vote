@@ -44,7 +44,7 @@ function FeedbackModal({ onClose, sessionHash }) {
           
           <textarea
             className="feedback-textarea"
-            placeholder="Envíe un mensaje"
+            placeholder="Envíenos un mensaje"
             value={message}
             onChange={handleMessageChange}
             rows={4}
@@ -59,7 +59,15 @@ function FeedbackModal({ onClose, sessionHash }) {
           </button>
           
           <div className="feedback-info">
-            <p>Este sitio fue creado en pocas horas con el agente de I.A. Copilot de GitHub..</p>
+            <p><strong>
+              DISCLAIMER:</strong> Esta no es una encuesta oficial del TSE, sino un simple sondeo entre conocidos con el
+              objetivo de detectar patrones de coincidencia entre partidarios de distintos candidatos. El muestreo NO es
+              aleatorio ya que su difusión es sesgada, p. ej. los seguidores de un partido podrían ser más propensos a
+              difundirla que otros. Además, NO pregunta sobre intención de voto, sino preferencia pura. Por lo tanto NO
+              debe considerarse una predicción de resultados electorales. Los resultados mostrados aquí son genuinos,
+              pero en general se debe ser juicioso al interpretar estadísticas electorales publicadas por fuentes
+              informales.</p>
+            <p>Este sitio fue creado en pocas horas con el agente de I.A. Copilot de GitHub.</p>
             <p className="feedback-version">Versión 1.0</p>
             <p className="feedback-author">Ramírez, 2026</p>
           </div>

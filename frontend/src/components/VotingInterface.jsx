@@ -468,6 +468,8 @@ const VotingInterface = ({ onViewResults }) => {
             <br />
             Arrastrá para reordenar.
             <br />
+            Respondé con tus preferencias honestas, NO necesariamente por quién vas a votar.
+            <br />
             <span className="info-link" onClick={() => setShowInfo(true)}>(¿Cómo era que funcionaba?)</span>
           </p>
           <button onClick={onViewResults} className="btn-view-results-small">

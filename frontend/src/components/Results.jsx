@@ -101,9 +101,12 @@ const Results = ({ onBackToVote }) => {
     <div className="results-container">
       <div className="results-header">
         <h1>Resultados - Voto Escalonado</h1>
+        <button onClick={fetchResults} className="btn-refresh btn-refresh-top">
+          🔄 Actualizar Resultados
+        </button>
         <p className="results-info-links">
           <span className="info-link" onClick={() => setShowFeedback(true)}>Info</span>
-          <br />
+          <span className="info-link-spacer"> • </span>
           <span className="info-link" onClick={() => setShowInfo(true)}>¿Cómo era que funcionaba?</span>
         </p>
       </div>
