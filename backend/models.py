@@ -19,14 +19,21 @@ class Party(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True, nullable=False, index=True)
     abbreviation = Column(String(20), unique=True, nullable=False)
-    candidate_name = Column(String(100), nullable=False)
+    
+    # Costa Rican name structure (5 fields)
+    first_firstname = Column(String(50), nullable=False)
+    second_firstname = Column(String(50), nullable=True)
+    display_firstname = Column(String(100), nullable=False)
+    first_lastname = Column(String(50), nullable=False)
+    second_lastname = Column(String(50), nullable=False)
+    
     photo_url = Column(String(255), nullable=True)  # URL or path to candidate photo
     flag_url = Column(String(255), nullable=True)   # URL or path to party flag
     color = Column(String(7), nullable=True)        # Hex color for UI (e.g., "#FF5733")
     description = Column(Text, nullable=True)
     
     def __repr__(self):
-        return f"<Party(id={self.id}, name={self.name}, candidate={self.candidate_name})>"
+        return f"<Party(id={self.id}, name={self.name}, candidate={self.display_firstname} {self.first_lastname})>"
 
 
 class Ballot(Base):

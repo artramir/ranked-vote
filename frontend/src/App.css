@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f0f2f5;
+  background: #ffffff;
 }
 
 #root {
@@ -19,7 +19,7 @@ body {
 
 .App {
   min-height: 100vh;
-  background: linear-gradient(135deg, #003f7f 0%, #0066cc 100%);
+  background: #ffffff;
   background-attachment: fixed;
 }
 

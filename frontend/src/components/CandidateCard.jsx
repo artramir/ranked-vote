@@ -1,34 +1,39 @@
 import React from 'react';
 import './CandidateCard.css';
 
-const CandidateCard = ({ candidate, rank, onRemove, isDragging }) => {
+const CandidateCard = ({ candidate, rank, onRemove, isDragging, onClick, compact = false, globalRotation = 0 }) => {
   return (
     <div 
-      className={`candidate-card ${isDragging ? 'dragging' : ''}`}
+      className={`candidate-card ${isDragging ? 'dragging' : ''} ${compact ? 'compact' : ''}`}
       style={{ borderColor: candidate.color }}
+      onClick={onClick}
     >
-      <div className="candidate-flag">
+      <div 
+        className="candidate-photo"
+        style={{ 
+          transform: isDragging ? 'rotateY(0deg)' : `rotateY(${globalRotation}deg)`,
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.05s linear'
+        }}
+      >
+        <img 
+          src={candidate.photo_url} 
+          alt={candidate.first_lastname}
+          draggable="false"
+          className="photo-image"
+          onError={(e) => e.target.src = '/images/candidates/placeholder.jpg'}
+        />
         <img 
           src={candidate.flag_url} 
-          alt={`${candidate.abbreviation} flag`}
+          alt={`Bandera ${candidate.abbreviation}`}
           draggable="false"
+          className="flag-image"
           onError={(e) => e.target.src = '/images/flags/placeholder.jpg'}
         />
       </div>
       
-      <div className="candidate-photo">
-        <img 
-          src={candidate.photo_url} 
-          alt={candidate.candidate_name}
-          draggable="false"
-          onError={(e) => e.target.src = '/images/candidates/placeholder.jpg'}
-        />
-      </div>
-      
       <div className="candidate-info">
-        <div className="candidate-name">{candidate.candidate_name}</div>
-        <div className="party-abbreviation">{candidate.abbreviation}</div>
-        <div className="party-name">{candidate.party_name}</div>
+        <div className="candidate-name">{candidate.first_lastname}</div>
       </div>
       
       {rank && (
@@ -40,7 +45,10 @@ const CandidateCard = ({ candidate, rank, onRemove, isDragging }) => {
       {onRemove && (
         <button 
           className="remove-btn" 
-          onClick={onRemove}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove();
+          }}
           aria-label="Remover candidato"
         >
           ✕

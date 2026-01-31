@@ -11,7 +11,11 @@ PARTIES_DATA = [
     {
         "name": "Coalición Agenda Ciudadana",
         "abbreviation": "AC",
-        "candidate_name": "Claudia Vanessa Dobles Camargo",
+        "first_firstname": "Claudia",
+        "second_firstname": "Vanessa",
+        "display_firstname": "Claudia",
+        "first_lastname": "Dobles",
+        "second_lastname": "Camargo",
         "color": "#FFD700",  # Gold
         "photo_url": "/images/candidates/ac.jpg",
         "flag_url": "/images/flags/ac.jpg",
@@ -20,7 +24,11 @@ PARTIES_DATA = [
     {
         "name": "Alianza Costa Rica Primero",
         "abbreviation": "CR1",
-        "candidate_name": "Douglas Caamaño Quirós",
+        "first_firstname": "Douglas",
+        "second_firstname": "",
+        "display_firstname": "Douglas",
+        "first_lastname": "Caamaño",
+        "second_lastname": "Quirós",
         "color": "#0066CC",  # Blue
         "photo_url": "/images/candidates/cr1.jpg",
         "flag_url": "/images/flags/cr1.jpg",
@@ -29,16 +37,24 @@ PARTIES_DATA = [
     {
         "name": "Aquí Costa Rica Manda",
         "abbreviation": "ACRM",
-        "candidate_name": "Ronny Castillo González",
+        "first_firstname": "Ronny",
+        "second_firstname": "",
+        "display_firstname": "Ronny",
+        "first_lastname": "Castillo",
+        "second_lastname": "González",
         "color": "#00AA00",  # Green
         "photo_url": "/images/candidates/acrm.jpg",
         "flag_url": "/images/flags/acrm.jpg",
         "description": "Administrador de Empresas"
     },
     {
-        "name": "Partido Avanza",
+        "name": "Avanza",
         "abbreviation": "PA",
-        "candidate_name": "José Miguel Aguilar Berrocal",
+        "first_firstname": "José",
+        "second_firstname": "Miguel",
+        "display_firstname": "José Miguel",
+        "first_lastname": "Aguilar",
+        "second_lastname": "Berrocal",
         "color": "#FF6600",  # Orange
         "photo_url": "/images/candidates/pa.jpg",
         "flag_url": "/images/flags/pa.jpg",
@@ -47,7 +63,11 @@ PARTIES_DATA = [
     {
         "name": "Centro Democrático y Social",
         "abbreviation": "CDS",
-        "candidate_name": "Ana Virginia Calzada Miranda",
+        "first_firstname": "Ana",
+        "second_firstname": "Virginia",
+        "display_firstname": "Ana Virginia",
+        "first_lastname": "Calzada",
+        "second_lastname": "Miranda",
         "color": "#4B0082",  # Indigo
         "photo_url": "/images/candidates/cds.jpg",
         "flag_url": "/images/flags/cds.jpg",
@@ -56,7 +76,11 @@ PARTIES_DATA = [
     {
         "name": "De la Clase Trabajadora",
         "abbreviation": "PT",
-        "candidate_name": "David Hernández Brenes",
+        "first_firstname": "David",
+        "second_firstname": "",
+        "display_firstname": "David",
+        "first_lastname": "Hernández",
+        "second_lastname": "Brenes",
         "color": "#DC143C",  # Crimson
         "photo_url": "/images/candidates/pt.jpg",
         "flag_url": "/images/flags/pt.jpg",
@@ -65,7 +89,11 @@ PARTIES_DATA = [
     {
         "name": "Esperanza Nacional",
         "abbreviation": "PENAC",
-        "candidate_name": "Claudio Alberto Alpízar Otoya",
+        "first_firstname": "Claudio",
+        "second_firstname": "Alberto",
+        "display_firstname": "Claudio",
+        "first_lastname": "Alpízar",
+        "second_lastname": "Otoya",
         "color": "#32CD32",  # Lime Green
         "photo_url": "/images/candidates/penac.jpg",
         "flag_url": "/images/flags/penac.jpg",
@@ -74,7 +102,11 @@ PARTIES_DATA = [
     {
         "name": "Esperanza y Libertad",
         "abbreviation": "PEL",
-        "candidate_name": "Marco David Rodríguez Badilla",
+        "first_firstname": "Marco",
+        "second_firstname": "David",
+        "display_firstname": "Marco",
+        "first_lastname": "Rodríguez",
+        "second_lastname": "Badilla",
         "color": "#20B2AA",  # Light Sea Green
         "photo_url": "/images/candidates/pel.jpg",
         "flag_url": "/images/flags/pel.jpg",
@@ -83,7 +115,11 @@ PARTIES_DATA = [
     {
         "name": "Frente Amplio",
         "abbreviation": "FA",
-        "candidate_name": "Andrés Ariel Robles Barrantes",
+        "first_firstname": "Andrés",
+        "second_firstname": "Ariel",
+        "display_firstname": "Ariel",
+        "first_lastname": "Robles",
+        "second_lastname": "Barrantes",
         "color": "#FFEF00",  # Yellow
         "photo_url": "/images/candidates/fa.jpg",
         "flag_url": "/images/flags/fa.jpg",
@@ -92,7 +128,11 @@ PARTIES_DATA = [
     {
         "name": "Integración Nacional",
         "abbreviation": "PIN",
-        "candidate_name": "Luis Esteban Amador Jiménez",
+        "first_firstname": "Luis",
+        "second_firstname": "Esteban",
+        "display_firstname": "Luis",
+        "first_lastname": "Amador",
+        "second_lastname": "Jiménez",
         "color": "#FF4500",  # Orange Red
         "photo_url": "/images/candidates/pin.jpg",
         "flag_url": "/images/flags/pin.jpg",
@@ -101,25 +141,37 @@ PARTIES_DATA = [
     {
         "name": "Justicia Social Costarricense",
         "abbreviation": "PJSC",
-        "candidate_name": "Walter Rubén Hernández Juárez",
+        "first_firstname": "Walter",
+        "second_firstname": "Rubén",
+        "display_firstname": "Walter",
+        "first_lastname": "Hernández",
+        "second_lastname": "Juárez",
         "color": "#8B4513",  # Brown
         "photo_url": "/images/candidates/pjsc.jpg",
         "flag_url": "/images/flags/pjsc.jpg",
         "description": "Abogado, ex viceministro"
     },
     {
-        "name": "Partido Liberación Nacional",
+        "name": "Liberación Nacional",
         "abbreviation": "PLN",
-        "candidate_name": "Álvaro Roberto Ramos Chaves",
+        "first_firstname": "Álvaro",
+        "second_firstname": "Roberto",
+        "display_firstname": "Álvaro",
+        "first_lastname": "Ramos",
+        "second_lastname": "Chaves",
         "color": "#008024",  # Green
         "photo_url": "/images/candidates/pln.jpg",
         "flag_url": "/images/flags/pln.jpg",
         "description": "Economista, ex presidente CCSS - Socialdemócrata"
     },
     {
-        "name": "Partido Liberal Progresista",
+        "name": "Liberal Progresista",
         "abbreviation": "PLP",
-        "candidate_name": "Eliécer Feinzaig Mintz",
+        "first_firstname": "Eliécer",
+        "second_firstname": "",
+        "display_firstname": "Eliécer",
+        "first_lastname": "Feinzaig",
+        "second_lastname": "Mintz",
         "color": "#00CED1",  # Dark Turquoise
         "photo_url": "/images/candidates/plp.jpg",
         "flag_url": "/images/flags/plp.jpg",
@@ -128,7 +180,11 @@ PARTIES_DATA = [
     {
         "name": "Nueva Generación",
         "abbreviation": "PNG",
-        "candidate_name": "Fernando Dionisio Zamora Castellanos",
+        "first_firstname": "Fernando",
+        "second_firstname": "Dionisio",
+        "display_firstname": "Fernando",
+        "first_lastname": "Zamora",
+        "second_lastname": "Castellanos",
         "color": "#00BFFF",  # Deep Sky Blue
         "photo_url": "/images/candidates/png.jpg",
         "flag_url": "/images/flags/png.jpg",
@@ -137,7 +193,11 @@ PARTIES_DATA = [
     {
         "name": "Nueva República",
         "abbreviation": "PNR",
-        "candidate_name": "Gerardo Fabricio Alvarado Muñoz",
+        "first_firstname": "Gerardo",
+        "second_firstname": "Fabricio",
+        "display_firstname": "Fabricio",
+        "first_lastname": "Alvarado",
+        "second_lastname": "Muñoz",
         "color": "#1E90FF",  # Dodger Blue
         "photo_url": "/images/candidates/pnr.jpg",
         "flag_url": "/images/flags/pnr.jpg",
@@ -146,7 +206,11 @@ PARTIES_DATA = [
     {
         "name": "Pueblo Soberano",
         "abbreviation": "PPSO",
-        "candidate_name": "Laura Fernández Delgado",
+        "first_firstname": "Laura",
+        "second_firstname": "",
+        "display_firstname": "Laura",
+        "first_lastname": "Fernández",
+        "second_lastname": "Delgado",
         "color": "#029ba3",  # Teal
         "photo_url": "/images/candidates/ppso.jpg",
         "flag_url": "/images/flags/ppso.jpg",
@@ -155,7 +219,11 @@ PARTIES_DATA = [
     {
         "name": "Progreso Social Democrático",
         "abbreviation": "PPSD",
-        "candidate_name": "Luz Mary Alpízar Loaiza",
+        "first_firstname": "Luz",
+        "second_firstname": "Mary",
+        "display_firstname": "Luz Mary",
+        "first_lastname": "Alpízar",
+        "second_lastname": "Loaiza",
         "color": "#9370DB",  # Medium Purple
         "photo_url": "/images/candidates/ppsd.jpg",
         "flag_url": "/images/flags/ppsd.jpg",
@@ -164,7 +232,11 @@ PARTIES_DATA = [
     {
         "name": "Unidad Social Cristiana",
         "abbreviation": "PUSC",
-        "candidate_name": "Juan Carlos Hidalgo Bogantes",
+        "first_firstname": "Juan",
+        "second_firstname": "Carlos",
+        "display_firstname": "Juan Carlos",
+        "first_lastname": "Hidalgo",
+        "second_lastname": "Bogantes",
         "color": "#0033A0",  # Blue
         "photo_url": "/images/candidates/pusc.jpg",
         "flag_url": "/images/flags/pusc.jpg",
@@ -173,7 +245,11 @@ PARTIES_DATA = [
     {
         "name": "Unidos Podemos",
         "abbreviation": "UP",
-        "candidate_name": "Natalia Díaz Quintana",
+        "first_firstname": "Natalia",
+        "second_firstname": "",
+        "display_firstname": "Natalia",
+        "first_lastname": "Díaz",
+        "second_lastname": "Quintana",
         "color": "#FF1493",  # Deep Pink
         "photo_url": "/images/candidates/up.jpg",
         "flag_url": "/images/flags/up.jpg",
@@ -182,7 +258,11 @@ PARTIES_DATA = [
     {
         "name": "Unión Costarricense Democrática",
         "abbreviation": "PUCD",
-        "candidate_name": "Boris Molina Acevedo",
+        "first_firstname": "Boris",
+        "second_firstname": "",
+        "display_firstname": "Boris",
+        "first_lastname": "Molina",
+        "second_lastname": "Acevedo",
         "color": "#B8860B",  # Dark Goldenrod
         "photo_url": "/images/candidates/pucd.jpg",
         "flag_url": "/images/flags/pucd.jpg",

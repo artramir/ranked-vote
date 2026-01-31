@@ -1,21 +1,22 @@
 .candidate-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: white;
-  border: 2px solid #ddd;
-  border-radius: 12px;
+  gap: 2px;
+  padding: 2px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
   cursor: move;
   transition: all 0.2s ease;
   position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   user-select: none;
   -webkit-user-drag: element;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .candidate-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
 
@@ -41,32 +42,65 @@
 
 .candidate-photo {
   flex-shrink: 0;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #ddd;
+  width: 70px;
+  height: 70px;
+  border: none;
+  margin: 0 auto;
+  position: relative;
+  transform-style: preserve-3d;
+  /* Animation will be injected globally with sync */
 }
 
-.candidate-photo img {
+.candidate-card.dragging .candidate-photo {
+  animation-play-state: paused;
+}
+
+@keyframes flipPhotoFlag {
+  0%, 45% {
+    transform: rotateY(0deg);
+  }
+  50%, 95% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.candidate-photo .photo-image,
+.candidate-photo .flag-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  border-radius: 50%;
+}
+
+.candidate-photo .flag-image {
+  transform: rotateY(180deg);
+  object-fit: contain;
 }
 
 .candidate-info {
-  flex: 1;
+  width: 100%;
   min-width: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .candidate-name {
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
-  margin-bottom: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.2;
+  width: 100%;
+  word-break: break-word;
 }
 
 .party-abbreviation {
@@ -85,71 +119,41 @@
 }
 
 .rank-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: white;
-  border: 3px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: none;
 }
 
 .remove-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #ff4444;
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.remove-btn:hover {
-  background: #cc0000;
-  transform: scale(1.1);
+  display: none;
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
   .candidate-card {
-    padding: 10px;
-    gap: 10px;
-  }
-  
-  .candidate-flag {
-    width: 32px;
-    height: 32px;
+    padding: 2px;
+    gap: 2px;
   }
   
   .candidate-photo {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
   }
   
   .candidate-name {
     font-size: 14px;
   }
-  
-  .party-abbreviation {
-    font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .candidate-card {
+    padding: 1px;
   }
   
-  .party-name {
-    font-size: 11px;
+  .candidate-photo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .candidate-name {
+    font-size: 14px;
   }
 }
