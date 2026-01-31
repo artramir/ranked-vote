@@ -359,7 +359,7 @@ const VotingInterface = ({ onViewResults }) => {
   const addToNextSlot = (candidate) => {
     const emptyIndex = rankings.findIndex(r => r === null);
     if (emptyIndex === -1) {
-      alert('Ya seleccionaste 5 candidatos. Remueve uno para agregar otro.');
+      alert('Ya seleccionaste 5 candidatos. Remové uno para agregar otro.');
       return;
     }
     let newRankings = [...rankings];
