@@ -6,15 +6,31 @@
 }
 
 .results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  text-align: center;
   margin-bottom: 30px;
 }
 
 .results-header h1 {
   color: white;
   font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.results-info-link {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.results-info-link .info-link {
+  color: #99ccff;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.results-info-link .info-link:hover {
+  color: #80b3ff;
 }
 
 .btn-back-small {

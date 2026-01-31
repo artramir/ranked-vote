@@ -23,6 +23,38 @@
   line-height: 1.6;
 }
 
+.info-link {
+  color: #667eea;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.info-link:hover {
+  color: #764ba2;
+}
+
+.btn-view-results-small {
+  margin-top: 12px;
+  padding: 8px 20px;
+  background: #99ccff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(153, 204, 255, 0.3);
+}
+
+.btn-view-results-small:hover {
+  background: #80b3ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(153, 204, 255, 0.4);
+}
+
 .ranking-section {
   background: #f5f5f5;
   border-radius: 16px;

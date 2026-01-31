@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InfoModal from './InfoModal';
 import './Results.css';
 
 const Results = ({ onBackToVote }) => {
@@ -7,6 +8,7 @@ const Results = ({ onBackToVote }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hoveredCandidate, setHoveredCandidate] = useState(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     fetchCandidates();
@@ -66,14 +68,12 @@ const Results = ({ onBackToVote }) => {
     <div className="results-container">
       <div className="results-header">
         <h1>Resultados - Voto Escalonado</h1>
+        <p className="results-info-link">
+          <span className="info-link" onClick={() => setShowInfo(true)}>(¿Cómo era que funcionaba?)</span>
+        </p>
       </div>
 
       <div className="results-summary">
-        <div className="summary-card">
-          <div className="summary-number">{results.total_ballots}</div>
-          <div className="summary-label">Votos Totales</div>
-        </div>
-        
         {results.winner && results.winner_party_id && (
           <div className="summary-card winner-card">
             {getCandidateById(results.winner_party_id) && (
@@ -87,6 +87,11 @@ const Results = ({ onBackToVote }) => {
             <div className="summary-label">Ganador</div>
           </div>
         )}
+        
+        <div className="summary-card">
+          <div className="summary-number">{results.total_ballots}</div>
+          <div className="summary-label">Votos Totales</div>
+        </div>
 
         {results.tied && (
           <div className="summary-card tie-card">
@@ -189,6 +194,8 @@ const Results = ({ onBackToVote }) => {
       <button onClick={fetchResults} className="btn-refresh">
         🔄 Actualizar Resultados
       </button>
+      
+      {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
     </div>
   );
 };

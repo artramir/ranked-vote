@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InfoModal from './InfoModal';
 import {
   DndContext,
   DragOverlay,
@@ -99,6 +100,7 @@ const VotingInterface = ({ onViewResults }) => {
   const [submitted, setSubmitted] = useState(false);
   const [ballotId, setBallotId] = useState(null);
   const [globalRotation, setGlobalRotation] = useState(0);
+  const [showInfo, setShowInfo] = useState(false);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -460,10 +462,13 @@ const VotingInterface = ({ onViewResults }) => {
         <div className="voting-header">
           <h1>Voto Escalonado Costa Rica 2026</h1>
           <p className="instructions">
-            ¡Tocá para agregar/quitar hasta 5 candidatos! Arrastrá para reordenar. 
-            Tu voto se asigna a primera opción. Si ese candidato queda de último lugar,
-            se le elimina y tu voto se transfiere a tu segunda opción, y así sucesivamente. (¿Ah?)
+            ¡Tocá para agregar/quitar hasta 5 candidatos! Arrastrá para reordenar.
+            <br />
+            <span className="info-link" onClick={() => setShowInfo(true)}>(¿Cómo era que funcionaba?)</span>
           </p>
+          <button onClick={onViewResults} className="btn-view-results-small">
+            Ver Resultados
+          </button>
         </div>
 
         <div className="ranking-section">
@@ -513,6 +518,8 @@ const VotingInterface = ({ onViewResults }) => {
           </div>
         ) : null}
       </DragOverlay>
+      
+      {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
     </DndContext>
   );
 };
