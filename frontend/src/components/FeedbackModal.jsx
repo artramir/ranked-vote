@@ -59,7 +59,7 @@ function FeedbackModal({ onClose, sessionHash }) {
           </button>
           
           <div className="feedback-info">
-            <p><strong>
+            <p className="disclaimer-text"><strong>
               DISCLAIMER:</strong> Esta no es una encuesta oficial del TSE, sino un simple sondeo entre conocidos con el
               objetivo de detectar patrones de coincidencia entre partidarios de distintos candidatos. El muestreo NO es
               aleatorio ya que su difusión es sesgada, p. ej. los seguidores de un partido podrían ser más propensos a

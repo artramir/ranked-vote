@@ -84,6 +84,10 @@
   line-height: 1.5;
 }
 
+.feedback-info p.disclaimer-text {
+  text-align: justify;
+}
+
 .feedback-version {
   font-size: 0.85rem !important;
   color: #999 !important;
@@ -98,6 +102,8 @@
 @media (max-width: 768px) {
   .feedback-modal-content {
     max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
   .feedback-modal-content h2 {
