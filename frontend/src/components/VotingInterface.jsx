@@ -52,8 +52,8 @@ const DraggableCandidate = ({ candidate, rank, onRemove, onClick, compact, globa
 };
 
 // Droppable slot component
-const DroppableSlot = ({ id, slotNumber, candidate, onRemove, isOver, globalRotation }) => {
-  const { setNodeRef } = useSortable({ id, disabled: true });
+const DroppableSlot = ({ id, slotNumber, candidate, onRemove, globalRotation }) => {
+  const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
     <div className="ranking-slot-container">
@@ -449,7 +449,7 @@ const VotingInterface = ({ onViewResults }) => {
         <div className="voting-header">
           <h1>Voto Escalonado Costa Rica 2026</h1>
           <p className="instructions">
-            ¡Tocá para agregar/quitar hasta 5 candidatos!1
+            ¡Tocá para agregar/quitar hasta 5 candidatos!2
             <br />
             Arrastrá para reordenar.
             <br />
@@ -470,7 +470,6 @@ const VotingInterface = ({ onViewResults }) => {
                 slotNumber={index + 1}
                 candidate={candidate}
                 onRemove={() => removeFromRanking(index)}
-                isOver={false}
                 globalRotation={globalRotation}
               />
             ))}
