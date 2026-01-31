@@ -448,7 +448,7 @@ const VotingInterface = ({ onViewResults }) => {
         <div className="voting-header">
           <h1>Voto Escalonado Costa Rica 2026</h1>
           <p className="instructions">
-            ¡Tocá para agregar/quitar hasta 5 candidatos!
+            ¡Tocá para agregar/quitar hasta 5 candidatos!-
             <br />
             Arrastrá para reordenar.
             <br />
