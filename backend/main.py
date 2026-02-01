@@ -13,7 +13,7 @@ import json
 
 from database import init_db, get_db
 from seed_data import seed_database, get_parties_data
-from models import Party, Ballot, VoteIntentionChange, Feedback
+from models import Party, Ballot, VoteIntentionChange, Feedback, Config
 from irv_algorithm import compute_irv_results, get_ballot_journey
 
 
@@ -26,6 +26,19 @@ async def lifespan(app: FastAPI):
     print("🚀 Starting Voto Escalonado API...")
     init_db()
     print("✅ Database tables created successfully")
+    
+    # Initialize default config values if they don't exist
+    from database import SessionLocal
+    db = SessionLocal()
+    try:
+        voting_config = db.query(Config).filter(Config.key == "voting_enabled").first()
+        if not voting_config:
+            voting_config = Config(key="voting_enabled", value="true")
+            db.add(voting_config)
+            db.commit()
+            print("✅ Initialized voting_enabled config to true")
+    finally:
+        db.close()
     
     # Note: Database seeding is now manual via /admin/seed endpoint
     # to preserve data across deployments
@@ -99,6 +112,15 @@ async def submit_ballot(ballot: dict, db: Session = Depends(get_db)):
     Expected format: {"rankings": [party_id_1, party_id_2, ...]}
     Rankings should be in order of preference (0-5 parties)
     """
+    # Check if voting is enabled
+    voting_config = db.query(Config).filter(Config.key == "voting_enabled").first()
+    if voting_config and voting_config.value.lower() == "false":
+        return {
+            "success": False, 
+            "error": "Voting has been closed",
+            "voting_enabled": False
+        }
+    
     rankings = ballot.get("rankings", [])
     
     # Validate rankings
@@ -214,6 +236,22 @@ async def get_ballot_journey_endpoint(ballot_id: int, db: Session = Depends(get_
     }
 
 
+@app.get("/api/config/voting-enabled")
+async def get_voting_enabled(db: Session = Depends(get_db)):
+    """
+    Public endpoint to check if voting is currently enabled
+    """
+    voting_config = db.query(Config).filter(Config.key == "voting_enabled").first()
+    enabled = True  # Default to true if not configured
+    
+    if voting_config:
+        enabled = voting_config.value.lower() == "true"
+    
+    return {
+        "voting_enabled": enabled
+    }
+
+
 # ===== ADMIN ENDPOINTS =====
 
 def verify_admin_key(x_admin_key: str = Header(None)):
@@ -243,6 +281,42 @@ def admin_seed_database(db: Session = Depends(get_db), _verified: bool = Depends
     return {
         "message": f"Successfully seeded {len(get_parties_data())} parties",
         "seeded": True
+    }
+
+
+@app.post("/admin/toggle-voting")
+def admin_toggle_voting(
+    data: dict,
+    db: Session = Depends(get_db), 
+    _verified: bool = Depends(verify_admin_key)
+):
+    """
+    Enable or disable voting system-wide.
+    Requires X-Admin-Key header.
+    Body: {"enabled": true/false}
+    """
+    enabled = data.get("enabled", True)
+    
+    # Validate input
+    if not isinstance(enabled, bool):
+        return {"success": False, "error": "enabled must be a boolean"}
+    
+    # Update or create config
+    voting_config = db.query(Config).filter(Config.key == "voting_enabled").first()
+    
+    if voting_config:
+        voting_config.value = "true" if enabled else "false"
+        voting_config.updated_at = datetime.utcnow()
+    else:
+        voting_config = Config(key="voting_enabled", value="true" if enabled else "false")
+        db.add(voting_config)
+    
+    db.commit()
+    
+    return {
+        "success": True,
+        "voting_enabled": enabled,
+        "message": f"Voting has been {'enabled' if enabled else 'disabled'}"
     }
 
 

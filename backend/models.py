@@ -115,3 +115,17 @@ class Feedback(Base):
     
     def __repr__(self):
         return f"<Feedback(id={self.id}, timestamp={self.timestamp})>"
+
+
+class Config(Base):
+    """
+    Stores system-wide configuration settings
+    """
+    __tablename__ = "config"
+
+    key = Column(String(100), primary_key=True, index=True)
+    value = Column(String(255), nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    
+    def __repr__(self):
+        return f"<Config(key={self.key}, value={self.value})>"

@@ -1,9 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import InfoModal from './InfoModal'
 import './Welcome.css'
 
 function Welcome({ onStartVoting, onViewResults }) {
   const [showInfo, setShowInfo] = useState(false)
+  const [votingEnabled, setVotingEnabled] = useState(true)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    checkVotingStatus()
+  }, [])
+
+  const checkVotingStatus = async () => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || ''
+      const response = await fetch(`${apiUrl}/api/config/voting-enabled`)
+      const data = await response.json()
+      setVotingEnabled(data.voting_enabled)
+    } catch (error) {
+      console.error('Error checking voting status:', error)
+      // Default to enabled if there's an error
+      setVotingEnabled(true)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -18,14 +39,25 @@ function Welcome({ onStartVoting, onViewResults }) {
             <br />
             ¿Quién ganaría la presidencia si votáramos de esa forma?
         </p>
+
+        {!votingEnabled && (
+          <p className="voting-closed-notice">
+            La votación para este ciclo electoral ha finalizado. Seguí pendiente a votoescalonado.org si te interesó el tema.
+          </p>
+        )}
         
         <div className="welcome-buttons">
           <button 
-            className="welcome-button vote-button"
-            onClick={onStartVoting}
+            className={`welcome-button vote-button ${!votingEnabled ? 'disabled' : ''}`}
+            onClick={votingEnabled ? onStartVoting : undefined}
+            disabled={!votingEnabled || loading}
           >
-            <span className="button-main-text">Ir a votar ➡️</span>
-            <span className="button-subtitle">(Por favor no votés más de una vez)</span>
+            <span className="button-main-text">
+              {votingEnabled ? 'Ir a votar ➡️' : 'Este sondeo ya ha terminado'}
+            </span>
+            <span className="button-subtitle">
+              {votingEnabled ? '(Por favor no votés más de una vez)' : '¡Muchas gracias por tu participación!'}
+            </span>
           </button>
           
           <button 
